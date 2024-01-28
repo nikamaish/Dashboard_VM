@@ -76,16 +76,18 @@ function CryptoRest() {
   const options = [
     {value:"BTC", label: 'Bitcoin' },
     { value: 'ETH', label: 'Etherium' },
-    { value: 'TETH', label: 'Tether' },
+    { value: 'BNB', label: 'BNB' },
+    { value: 'SOL', label: 'SOLANA' },
+    { value: 'XRP', label: 'XRP' },
   ];
 
   return (
     <div>
-      <h1>Real-Time Crypto Price Chart</h1>
+      <h1 style={{textAlign:'center', marginTop:'2vh'}}>Real-Time Crypto Price Chart</h1>
     
-    <div multiple value={selectedCryptos} onChange={handleCryptoSelection}>
-    <label>Select an option:</label>
-      <select >
+    <div multiple value={selectedCryptos} onChange={handleCryptoSelection} style={{ textAlign: 'end', marginTop: '20px', marginRight:'20px'}} >
+    {/* <label>Select an option:</label> */}
+      <select   style={{ height: '40px', width: '120px',fontWeight:'600', fontSize:'16px'}}>
         {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}
