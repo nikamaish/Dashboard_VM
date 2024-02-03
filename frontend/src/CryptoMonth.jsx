@@ -13,12 +13,17 @@ function CryptoMonth() {
     datasets: [],
   });
   const [selectedInterval, setSelectedInterval] = useState('1D'); // Default interval is 1 day
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
+        setCryptoData([]);
+        setChartData({ labels: [], datasets: [] });
+
         const intervalDays = {
-          // '1D': 1,
+          '1D': 1,
           '1M': 30,
           '7D': 7,
           '3M': 90,
@@ -30,7 +35,7 @@ function CryptoMonth() {
             params: {
               vs_currency: 'usd',
               days: intervalDays[selectedInterval],
-              interval: 'daily', // Adjust if you want hourly data, etc.
+              interval: 'daily',
             },
           });
         });
@@ -53,11 +58,13 @@ function CryptoMonth() {
         setChartDataFromCryptoData(newData);
       } catch (error) {
         console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchData();
-  }, [selectedCryptos, selectedInterval]); // Fetch data whenever selectedCryptos or selectedInterval change
+  }, [selectedCryptos, selectedInterval]);
 
   const setChartDataFromCryptoData = data => {
     if (data.length > 0) {
@@ -125,7 +132,9 @@ function CryptoMonth() {
           </select>
         </div>
 
-        {cryptoData.length > 0 ? (
+        {loading ? (
+          <p>Loading data...</p>
+        ) : (
           <Line
             data={chartData}
             options={{
@@ -179,8 +188,6 @@ function CryptoMonth() {
               },
             }}
           />
-        ) : (
-          <p>Loading data...</p>
         )}
       </div>
     </div>

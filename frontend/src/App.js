@@ -40,7 +40,7 @@ const App = () => {
       {/* <RiskWarning/> */}
       {/* <Footer/> */}
       {/* <CryptoRest /> */}
-      <CryptoMonth />
+      {/* <CryptoMonth /> */}
       
     </div>
   );
