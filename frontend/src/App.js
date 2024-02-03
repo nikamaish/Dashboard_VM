@@ -16,6 +16,7 @@ import CryptoData from "./cryptoData/CryptoData";
 import CryptoRest from "./CryptoRest";
 import Signin from "./Signin/Signin";
 import Signup from "./Signup/Signup";
+import CryptoMonth from "./CryptoMonth";
 
 const App = () => {
   return (
@@ -36,6 +37,8 @@ const App = () => {
       {/* <RiskWarning/> */}
       {/* <Footer/> */}
       <CryptoRest />
+      {/* <CryptoMonth /> */}
+      
     </div>
   );
 };

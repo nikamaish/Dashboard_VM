@@ -1,0 +1,28 @@
+body{
+  background-color: #001d3d;
+}
+.rectangle-page{
+  background-color: white;
+  border-radius: 20px;
+  padding: 10px;
+  margin: 60px 30px 30px 30px;
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+}
+
+.timeRest ul{
+  display: flex;
+  flex-direction: row;
+  justify-content:flex-start ;
+  margin-left: 8%;
+  margin-top: 3% ;
+}
+
+.timeRest li{
+  border: 1px solid #001d3d;
+  border-radius: 7px;
+  padding: 14px;
+  margin:   0 15px;
+  cursor: pointer;
+  font-weight: 700;
+  font-family:'Times New Roman', Times, serif;
+}

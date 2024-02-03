@@ -20,7 +20,6 @@ function CryptoGraphs() {
 
   useEffect(() => {
     const apiKey = '2bef53cce2bbcf3a5f288ac7215437101d6159c792f8743e1b2c2c568d6a608c';
-    // const apiKey = '8a6a631c72aa0fb35f3a9c7eef9846f7e443e60efa8cb78b73c191a9c2291616'
     const websocketURL = `wss://streamer.cryptocompare.com/v2?api_key=${apiKey}`;
     const newSocket = new WebSocket(websocketURL);
 
@@ -96,7 +95,7 @@ function CryptoGraphs() {
 
  
 
-  // const yAxisFixedPoints = [39800, 39840, 39880, 39920, 39960, 40000, 40040, 40080, 40120];
+  const yAxisFixedPoints = [39800, 39840, 39880, 39920, 39960, 40000, 40040, 40080, 40120];
 
 
   return (
@@ -105,11 +104,10 @@ function CryptoGraphs() {
       {cryptoData.length > 0 ? (
         <Line data={chartData} options={{ responsive: true, 
           scales: {
-            
             y: {
               beginAtZero: false,
               min: 39800, // Set the minimum y-axis value
-              max:40180, // Set the maximum y-axis value
+              max: 45100, // Set the maximum y-axis value
               ticks: {
                 stepSize: null, // null to let Chart.js calculate the step size
                 precision: 2, // Optional: set the precision of the tick values

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Line } from 'react-chartjs-2';
 import 'chartjs-adapter-moment';
+import './CryptoRest.css';
 
 function CryptoRest() {
   const [cryptoData, setCryptoData] = useState([]);
@@ -10,12 +11,18 @@ function CryptoRest() {
     labels: [],
     datasets: [],
   });
+  const currentDate = new Date();
+const oneMonthAgo = new Date(currentDate);
+oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const requests = selectedCryptos.map(crypto => {
           return axios.get(`https://min-api.cryptocompare.com/data/v2/histominute?fsym=${crypto}&tsym=USD&limit=530`);
+        
+          // return axios.get(`https://min-api.cryptocompare.com/data/v2/histominute?fsym=${crypto}&tsym=USD&limit=530&toTs=${Math.floor(oneMonthAgo.getTime() / 1000)}`);
         });
 
         const responses = await Promise.all(requests);
@@ -55,7 +62,8 @@ function CryptoRest() {
           label: `${crypto} Price (USD)`,
           data: data.map(item => item[`${crypto}Price`]),
           borderColor: index === 0 ? color1 : color2,
-          fill: false,
+          fill: true, // Enable fill below the line
+          backgroundColor: 'rgba(0, 128, 0, 0.1)',
           pointRadius:0,
         };
       });
@@ -82,75 +90,98 @@ function CryptoRest() {
   ];
 
   return (
-    <div>
-      <h1 style={{textAlign:'center', marginTop:'2vh'}}>Real-Time Crypto Price Chart</h1>
-    
-    <div multiple value={selectedCryptos} onChange={handleCryptoSelection} style={{ textAlign: 'end', marginTop: '20px', marginRight:'20px'}} >
-    {/* <label>Select an option:</label> */}
-      <select   style={{ height: '40px', width: '120px',fontWeight:'600', fontSize:'16px'}}>
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-    </div>
-    
-      {/* <div>
+    <div className="rectangle-page">
+      <div className="graph-container">
+        <h1 style={{ textAlign: 'center', marginTop: '2vh' }}> 1 Minute Crypto Price Chart</h1>
        
-        <select multiple value={selectedCryptos} onChange={handleCryptoSelection}>
-          <option value="BTC">Bitcoin</option>
-          <option value="ETH">Ethereum</option>
-         
-        </select>
-      </div> */}
-      {cryptoData.length > 0 ? (
-        <Line
-          data={chartData}
-          options={{
-            responsive: true,
-            scales: {
-              x: {
-                type: 'time',
-                time: {
-                  unit: 'hour',
-                  stepSize: 0.5,
-                  displayFormats: {
-                    hour: 'HH:00',
+        <div className="timeRest">
+       <ul style={{listStyle:"none"}}>
+       <li>1D</li>
+        <li>7D</li>
+        <li>1M</li>
+        <li>3M</li>
+       </ul>
+        </div>
+        <div multiple value={selectedCryptos} onChange={handleCryptoSelection} style={{ textAlign: 'end', marginTop: '20px', marginRight: '60px' }}>
+          <select style={{ height: '40px', width: '120px', fontWeight: '600', fontSize: '16px', cursor:'pointer', borderRadius:'5px', paddingLeft:'7px' }}>
+            {options.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {cryptoData.length > 0 ? (
+          <Line
+            data={chartData}
+            options={{
+              responsive: true,
+              layout: {
+                padding: {
+                  left: 20, // Adjust the left padding as needed
+                  right: 20, // Adjust the right padding as needed
+                  top: 0,
+                  bottom: 0,
+                },
+              },
+        
+              scales: {
+                x: {
+                  type: 'time',
+                  time: {
+                    unit: 'hour',
+                    stepSize: 0.5,
+                    displayFormats: {
+                      hour: 'HH:00',
+                    },
+                  },
+                  grid: {
+                    display: false,
+                    drawBorder: false,
+                  },
+                },
+                y: {
+                  beginAtZero: false,
+                  min: Math.min(...cryptoData.map(item => Math.min(...selectedCryptos.map(crypto => item[`${crypto}Price`])))),
+                  max: Math.max(...cryptoData.map(item => Math.max(...selectedCryptos.map(crypto => item[`${crypto}Price`])))),
+                  ticks: {
+                    stepSize: null,
+                    precision: 2,
+                    callback: value => `$${value}`,
+                  },
+                  grid: {
+                    display: false,
+                    drawBorder: false,
                   },
                 },
               },
-              y: {
-                beginAtZero: false,
-                min: Math.min(
-                  ...cryptoData.map(item => Math.min(...selectedCryptos.map(crypto => item[`${crypto}Price`])))
-                ),
-                max: Math.max(
-                  ...cryptoData.map(item => Math.max(...selectedCryptos.map(crypto => item[`${crypto}Price`])))
-                ),
-                ticks: {
-                  stepSize: null,
-                  precision: 2,
-                  callback: value => `$${value}`,
+              plugins: {
+                legend: {
+                  display: true,
+                },
+                tooltip: {
+                  mode: 'index',
+                  intersect: false,
                 },
               },
-            },
-            plugins: {
-              legend: {
-                display: true,
-              },
-              tooltip: {
-                mode: 'index',
-                intersect: false,
-              },
-            },
-          }}
-        />
-      ) : (
-        <p>Loading data...</p>
-      )}
+            }}
+          />
+        ) : (
+          <p>Loading data...</p>
+        )}
+      </div>
+
     </div>
   );
 }
 
 export default CryptoRest;
+
+
+
+
+
+
+
+
