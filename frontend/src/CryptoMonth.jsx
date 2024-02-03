@@ -12,7 +12,7 @@ function CryptoMonth() {
     labels: [],
     datasets: [],
   });
-  const [selectedInterval, setSelectedInterval] = useState('1D'); // Default interval is 1 day
+  const [selectedInterval, setSelectedInterval] = useState('1M'); // Default interval is 1 day
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -23,7 +23,7 @@ function CryptoMonth() {
         setChartData({ labels: [], datasets: [] });
 
         const intervalDays = {
-          '1D': 1,
+          // '1D': 1,
           '1M': 30,
           '7D': 7,
           '3M': 90,
@@ -116,8 +116,8 @@ function CryptoMonth() {
         <div className="timeRest">
           <ul style={{ listStyle: "none" }}>
             <Link to='/cryptorest' style={{ textDecoration: 'none' }}><li>1D</li></Link>
-            <li onClick={() => handleIntervalChange('1M')}>1M</li>
             <li onClick={() => handleIntervalChange('7D')}>7D</li>
+            <li onClick={() => handleIntervalChange('1M')}>1M</li>
             <li onClick={() => handleIntervalChange('3M')}>3M</li>
           </ul>
         </div>
