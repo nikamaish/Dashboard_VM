@@ -27,6 +27,9 @@ const App = () => {
       <Routes>
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/cryptorest" element={ <CryptoRest />} />
+        <Route path="/cryptomonth" element={<CryptoMonth />} />
+
       </Routes>
       {/* <CryptoGraphs/>  */}
       {/* <Broadcast/> */}
@@ -36,8 +39,8 @@ const App = () => {
       {/* <Help/> */}
       {/* <RiskWarning/> */}
       {/* <Footer/> */}
-      <CryptoRest />
-      {/* <CryptoMonth /> */}
+      {/* <CryptoRest /> */}
+      <CryptoMonth />
       
     </div>
   );
