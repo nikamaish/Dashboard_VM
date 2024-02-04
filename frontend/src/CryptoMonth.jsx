@@ -71,8 +71,13 @@ function CryptoMonth() {
           return dataPoint;
         });
 
+// why we did above code?  We use the map method to iterate over the timestamps array and create a new array of objects. Each object contains the timestamp and the price data for each cryptocurrency at that timestamp. We use the forEach method to iterate over the cryptoDatas array and extract the price data for each cryptocurrency at the current timestamp. The extracted price data is added to the object using the cryptocurrency symbol as the key.
+// but we already have price data in cryptoDatas array, why we need to create new array of objects?  We create a new array of objects to restructure the price data into a format that can be used to populate the chartData object required by the Chart.js library. The new array of objects contains the timestamp and the price data for each cryptocurrency at that timestamp.
+
         setCryptoData(newData);
         setChartDataFromCryptoData(newData);
+        // why we used setChartDataFromCryptoData(newData)?  We use the setChartDataFromCryptoData function to populate the chartData object with the price data retrieved from the CoinGecko API. The setChartDataFromCryptoData function takes the price data as an argument and updates the chartData object with the required data structure.
+
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -80,12 +85,15 @@ function CryptoMonth() {
       }
     };
 
-    fetchData();
+    fetchData(); // here we are calling the fetchData function to retrieve the price data for the selected cryptocurrencies.
   }, [selectedCryptos, selectedInterval]);
+  // why we used [selectedCryptos, selectedInterval] as second argument of useEffect?  We use the second argument of the useEffect hook to specify the dependencies of the effect. The effect is re-run whenever the dependencies change. In this case, the effect is re-run whenever the selectedCryptos or selectedInterval state variables change.
 
-  const setChartDataFromCryptoData = data => {
+  const setChartDataFromCryptoData = data => { // why we name data?  The setChartDataFromCryptoData function takes the price data as an argument and updates the chartData object with the required data structure. The data argument is an array of objects that contain the price data for the selected cryptocurrencies. 
+    // can we place there newData give me ans
     if (data.length > 0) {
       const labels = data.map(item => item.timestamp);
+      // why we used data.map(item => item.timestamp)?  We use the map method to iterate over the price data and extract the timestamps. The extracted timestamps are added to the labels array, which is used to populate the x-axis of the line chart.
 
       const color1 = '#008000'; // Green
       const color2 = '#008000'; // Blue
@@ -101,17 +109,20 @@ function CryptoMonth() {
         };
       });
 
-      setChartData({
-        labels,
-        datasets,
-      });
+      setChartData({labels,datasets,}); // why we used setChartData({labels,datasets,})?  We use the setChartData function to update the chartData object with the required data structure. The labels and datasets properties of the chartData object are populated with the extracted timestamps and price data, respectively.
     }
   };
+
+  // 
 
   const handleCryptoSelection = event => {
     const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
     setSelectedCryptos(selectedOptions);
   };
+//  what is event?  The event object contains information about the event that triggered the function. In this case, the event object contains information about the change event that was triggered when the user selected or deselected a cryptocurrency from the dropdown list.
+// which Array.from() method is used for?  The Array.from method is used to convert the selectedOptions property of the event target into an array. The selectedOptions property contains the selected options from the dropdown list.
+
+// selectedOptions is an array of strings that contain the symbols of the cryptocurrencies selected by the user. The selectedCryptos state variable is updated with the selectedOptions array, which triggers the useEffect hook to retrieve the price data for the selected cryptocurrencies.
 
   const handleIntervalChange = interval => {
     setSelectedInterval(interval);
