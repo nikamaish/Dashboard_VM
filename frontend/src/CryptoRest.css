@@ -26,3 +26,9 @@ body{
   font-weight: 700;
   font-family:'Times New Roman', Times, serif;
 }
+
+.timeRest ul li.selected {
+  background-color: #3498db; /* Change this color to your preferred color */
+  color: #fff; /* Change the text color to ensure readability */
+  cursor: pointer; /* Change the cursor to indicate interactivity */
+}

@@ -4,6 +4,7 @@ import { Line } from 'react-chartjs-2';
 import 'chartjs-adapter-moment';
 import './CryptoRest.css';
 import { Link } from 'react-router-dom';
+import { set } from 'mongoose';
 
 function CryptoMonth() {
   const [cryptoData, setCryptoData] = useState([]);
@@ -19,6 +20,11 @@ function CryptoMonth() {
 // what is difference between useEffect and useState?  useEffect is used to perform side effects in your functional components. 
 
 // what is difference between cryptodata and chartData?  cryptoData is an array of objects that contain the price data for the selected cryptocurrencies. chartData is an object that contains the data structure required by the Chart.js library to render the line chart. why need seperate cryptoData and chartData?  The cryptoData array is used to store the raw price data retrieved from the CoinGecko API. The chartData object is used to store the data structure required by the Chart.js library to render the line chart. The chartData object is populated based on the cryptoData array.
+
+
+const [selectedBlock, setSelectedBlock] = useState('1M'); // Default interval is 1 day
+
+
 
 
   useEffect(() => {
@@ -126,6 +132,7 @@ function CryptoMonth() {
 
   const handleIntervalChange = interval => {
     setSelectedInterval(interval);
+    setSelectedBlock(interval); // here we are setting the selectedBlock state variable to the selectedInterval state variable. This is done to highlight the selected interval in the user interface. 
   };
 
   const options = [
@@ -143,10 +150,12 @@ function CryptoMonth() {
 
         <div className="timeRest">
           <ul style={{ listStyle: "none" }}>
-            <Link to='/cryptorest' style={{ textDecoration: 'none', color:'#000' }}><li>1D</li></Link>
-            <li onClick={() => handleIntervalChange('7D')}>7D</li>
-            <li onClick={() => handleIntervalChange('1M')}>1M</li>
-            <li onClick={() => handleIntervalChange('3M')}>3M</li>
+            <Link to='/cryptorest' style={{ textDecoration: 'none', color:'#000' }}>
+            <li className={selectedBlock === '7D' ? 'selected' : ''}>1D</li>
+            </Link>
+            <li onClick={() => handleIntervalChange('7D')} className={selectedBlock === '7D' ? 'selected' : ''}>7D</li>
+            <li onClick={() => handleIntervalChange('1M')} className={selectedBlock === '1M' ? 'selected' : ''}>1M</li>
+            <li onClick={() => handleIntervalChange('3M')} className={selectedBlock === '3M' ? 'selected' : ''}>3M</li>
           </ul>
         </div>
 

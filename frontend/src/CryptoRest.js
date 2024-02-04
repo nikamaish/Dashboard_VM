@@ -12,6 +12,7 @@ function CryptoRest() {
     labels: [],
     datasets: [],
   });
+  
   const currentDate = new Date();
 const oneMonthAgo = new Date(currentDate);
 oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
