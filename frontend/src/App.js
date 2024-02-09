@@ -17,6 +17,7 @@ import CryptoRest from "./CryptoRest";
 import Signin from "./Signin/Signin";
 import Signup from "./Signup/Signup";
 import CryptoMonth from "./CryptoMonth";
+import Stock from "./Stock";
 
 const App = () => {
   return (
@@ -29,6 +30,8 @@ const App = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/cryptorest" element={ <CryptoRest />} />
         <Route path="/cryptomonth" element={<CryptoMonth />} />
+        <Route path="/stock" element={<Stock />} />
+
 
       </Routes>
       {/* <CryptoGraphs/>  */}

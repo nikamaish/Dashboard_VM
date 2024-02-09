@@ -99,8 +99,8 @@ oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
         <div className="timeRest">
        <ul style={{listStyle:"none"}}>
        <Link to='/cryptorest' style={{textDecoration:'none'}}><li>1D</li></Link>
-       <Link to='/cryptomonth' style={{textDecoration:'none'}}><li>1M</li></Link>
         <li>7D</li>
+       <Link to='/cryptomonth' style={{textDecoration:'none'}}><li>1M</li></Link>
         <li>3M</li>
        </ul>
         </div>
