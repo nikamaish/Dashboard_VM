@@ -3,25 +3,32 @@ import Chart from 'chart.js/auto';
 
 const Stock = () => {
   const [stockData, setStockData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const chartRef = useRef(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const apiKey = 'ID1ZPSB5LDTYDMDX';
-        const symbol = 'AAPL'; // Replace with your desired stock symbol
-        const apiUrl = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${symbol}&apikey=${apiKey}`;
+        const apiKey = 'IIEA0R92T57JMYKW';
+        const apiUrl = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=5min&apikey=${apiKey}`;
 
         const response = await fetch(apiUrl);
         const data = await response.json();
 
-        // Extract relevant information (e.g., closing prices)
-        const dates = Object.keys(data['Time Series (Daily)']);
-        const prices = dates.map(date => data['Time Series (Daily)'][date]['4. close']);
+        // Check if the required properties exist
+        if (data && data['Time Series (5min)']) {
+          const dates = Object.keys(data['Time Series (5min)']);
+          const prices = dates.map(date => data['Time Series (5min)'][date]['4. close']);
 
-        setStockData({ dates, prices });
+          setStockData({ dates, prices });
+        } else {
+          console.error('Error: Unexpected data format from API');
+          console.log('Actual API response structure:', data);
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -46,7 +53,7 @@ const Stock = () => {
           datasets: [{
             label: 'Stock Price',
             data: stockData.prices.reverse(),
-            borderColor: 'rgb(75, 192, 192)',
+            borderColor: 'green',
             borderWidth: 2,
             fill: false,
           }],
@@ -57,7 +64,11 @@ const Stock = () => {
 
   return (
     <div>
-      <canvas id="stockChart" width="800" height="400"></canvas>
+      {loading ? (
+        <p>Loading stock data...</p>
+      ) : (
+        <canvas id="stockChart" width="800" height="400"></canvas>
+      )}
     </div>
   );
 };
