@@ -10,15 +10,15 @@ const Stock = () => {
     const fetchData = async () => {
       try {
         const apiKey = 'IIEA0R92T57JMYKW';
-        const apiUrl = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=5min&apikey=${apiKey}`;
+        const apiUrl = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=1min&apikey=${apiKey}`;
 
         const response = await fetch(apiUrl);
         const data = await response.json();
 
         // Check if the required properties exist
-        if (data && data['Time Series (5min)']) {
-          const dates = Object.keys(data['Time Series (5min)']);
-          const prices = dates.map(date => data['Time Series (5min)'][date]['4. close']);
+        if (data && data['Time Series (1min)']) {
+          const dates = Object.keys(data['Time Series (1min)']);
+          const prices = dates.map(date => data['Time Series (1min)'][date]['4. close']);
 
           setStockData({ dates, prices });
         } else {
