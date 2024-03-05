@@ -99,8 +99,8 @@ function CryptoGraphs() {
 
 
   return (
-    <div>
-      <h1>Real-Time Crypto Price Chart</h1>
+    <div style={{ backgroundColor: '#fff' }} className="rectangle-page">
+      <h1 style={{textAlign:'center', margin:'20px 0'}}>Real-Time Crypto Price Chart</h1>
       {cryptoData.length > 0 ? (
         <Line data={chartData} options={{
   responsive: true,

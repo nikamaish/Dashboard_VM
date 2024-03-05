@@ -19,7 +19,10 @@ body{
 }
 
 .timeRest li{
-  border: 1px solid #001d3d;
+  /* border: 1px solid #001d3d; */
+  background-color:chocolate;
+  color: white;
+  border: none;
   border-radius: 7px;
   padding: 14px;
   margin:   0 15px;

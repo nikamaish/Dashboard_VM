@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Line } from 'react-chartjs-2';
+import { Line, Bar } from 'react-chartjs-2';
 import 'chartjs-adapter-moment';
 import './CryptoRest.css';
 import { Link } from 'react-router-dom';
