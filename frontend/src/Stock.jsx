@@ -9,18 +9,22 @@ const Stock = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const apiKey = 'IIEA0R92T57JMYKW';
-        const apiUrl = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=1min&apikey=${apiKey}`;
+        const apiKey = '_fzSFz3KWjdpvpVq8XjjJOkJegWhpJwa';
+        const symbol = 'TSLA'; // Replace with your desired stock symbol
+        const date = '2024-02-08'; // Replace with the specific date
+        const apiUrl = `https://api.polygon.io/v2/aggs/ticker/${symbol}/range/1/minute/${date}/${date}?adjusted=true&apiKey=${apiKey}`;
 
         const response = await fetch(apiUrl);
         const data = await response.json();
 
         // Check if the required properties exist
-        if (data && data['Time Series (1min)']) {
-          const dates = Object.keys(data['Time Series (1min)']);
-          const prices = dates.map(date => data['Time Series (1min)'][date]['4. close']);
+        if (data && data.results) {
+          const minutesData = data.results.map(result => ({
+            timestamp: new Date(result.t),
+            close: result.c,
+          }));
 
-          setStockData({ dates, prices });
+          setStockData(minutesData);
         } else {
           console.error('Error: Unexpected data format from API');
           console.log('Actual API response structure:', data);
@@ -37,7 +41,7 @@ const Stock = () => {
 
   useEffect(() => {
     // Once stockData is updated, create or update the chart
-    if (stockData.dates && stockData.prices) {
+    if (stockData.length > 0) {
       // Destroy the previous chart instance
       if (chartRef.current) {
         chartRef.current.destroy();
@@ -49,14 +53,27 @@ const Stock = () => {
       chartRef.current = new Chart(ctx, {
         type: 'line',
         data: {
-          labels: stockData.dates.reverse(),
+          labels: stockData.map(dataPoint => dataPoint.timestamp),
           datasets: [{
             label: 'Stock Price',
-            data: stockData.prices.reverse(),
+            data: stockData.map(dataPoint => dataPoint.close),
             borderColor: 'green',
             borderWidth: 2,
             fill: false,
           }],
+        },
+        options: {
+          scales: {
+            x: {
+              type: 'time',
+              time: {
+                unit: 'minute',
+                displayFormats: {
+                  minute: 'HH:mm',
+                },
+              },
+            },
+          },
         },
       });
     }

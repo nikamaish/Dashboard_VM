@@ -95,29 +95,24 @@ function CryptoGraphs() {
 
  
 
-  const yAxisFixedPoints = [39800, 39840, 39880, 39920, 39960, 40000, 40040, 40080, 40120];
+  // const yAxisFixedPoints = [39800, 39840, 39880, 39920, 39960, 40000, 40040, 40080, 40120];
 
 
   return (
     <div>
       <h1>Real-Time Crypto Price Chart</h1>
       {cryptoData.length > 0 ? (
-        <Line data={chartData} options={{ responsive: true, 
-          scales: {
-            y: {
-              beginAtZero: false,
-              min: 39800, // Set the minimum y-axis value
-              max: 45100, // Set the maximum y-axis value
-              ticks: {
-                stepSize: null, // null to let Chart.js calculate the step size
-                precision: 2, // Optional: set the precision of the tick values
-                callback: (value) => `$${value}`, // Optional: format the tick values
-                // values: yAxisFixedPoints, // No need to specify fixed points in this case
-              },
-            },
-          },
-      
-      }} />
+        <Line data={chartData} options={{
+  responsive: true,
+  scales: {
+    y: {
+      beginAtZero: false,
+      // min: 39800,
+      // max: 45100,
+    },
+  },
+}}
+/>
       ) : (
         <p>Loading data...</p>
       )}

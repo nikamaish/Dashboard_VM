@@ -34,7 +34,7 @@ const App = () => {
 
 
       </Routes>
-      {/* <CryptoGraphs/>  */}
+      <CryptoGraphs/> 
       {/* <Broadcast/> */}
       {/* <Headsection/> */}
       {/* <CryptoData/> */}
