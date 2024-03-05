@@ -107,8 +107,8 @@ function CryptoGraphs() {
   scales: {
     y: {
       beginAtZero: false,
-      // min: 39800,
-      // max: 45100,
+      min: 66000.00,
+      max: 68800.00,
     },
   },
 }}
