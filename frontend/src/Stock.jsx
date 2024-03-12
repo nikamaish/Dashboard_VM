@@ -1,30 +1,41 @@
 import React, { useEffect, useState, useRef } from 'react';
-import Chart from 'chart.js/auto';
 
 const Stock = () => {
-  const [stockData, setStockData] = useState([]);
+  const [historicalData, setHistoricalData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const chartRef = useRef(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const apiKey = '_fzSFz3KWjdpvpVq8XjjJOkJegWhpJwa';
-        const symbol = 'TSLA'; // Replace with your desired stock symbol
-        const date = '2024-02-08'; // Replace with the specific date
-        const apiUrl = `https://api.polygon.io/v2/aggs/ticker/${symbol}/range/1/minute/${date}/${date}?adjusted=true&apiKey=${apiKey}`;
+        const apiKey = 'df5a8fbf04msh3edf50e3129a73ap1747cfjsnc2f84df542cd';
+        const symbol = 'AMRN'; // Replace with the desired stock symbol
+        const apiUrl = `https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v3/get-historical-data?symbol=${symbol}&region=US`;
 
-        const response = await fetch(apiUrl);
+        const options = {
+          method: 'GET',
+          headers: {
+            'X-RapidAPI-Key': apiKey,
+            'X-RapidAPI-Host': 'apidojo-yahoo-finance-v1.p.rapidapi.com',
+          },
+        };
+
+        const response = await fetch(apiUrl, options);
+
+        if (!response.ok) {
+          throw new Error(`Failed to fetch data. Status: ${response.status}`);
+        }
+
         const data = await response.json();
 
         // Check if the required properties exist
-        if (data && data.results) {
-          const minutesData = data.results.map(result => ({
-            timestamp: new Date(result.t),
-            close: result.c,
+        if (data && data.prices) {
+          // Extract relevant information from the response, e.g., closing prices
+          const historicalPrices = data.prices.map((priceData) => ({
+            timestamp: new Date(priceData.date * 1000),
+            close: priceData.close,
           }));
 
-          setStockData(minutesData);
+          setHistoricalData(historicalPrices);
         } else {
           console.error('Error: Unexpected data format from API');
           console.log('Actual API response structure:', data);
@@ -40,51 +51,15 @@ const Stock = () => {
   }, []);
 
   useEffect(() => {
-    // Once stockData is updated, create or update the chart
-    if (stockData.length > 0) {
-      // Destroy the previous chart instance
-      if (chartRef.current) {
-        chartRef.current.destroy();
-      }
-
-      const ctx = document.getElementById('stockChart').getContext('2d');
-
-      // Create a new Chart instance
-      chartRef.current = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: stockData.map(dataPoint => dataPoint.timestamp),
-          datasets: [{
-            label: 'Stock Price',
-            data: stockData.map(dataPoint => dataPoint.close),
-            borderColor: 'green',
-            borderWidth: 2,
-            fill: false,
-          }],
-        },
-        options: {
-          scales: {
-            x: {
-              type: 'time',
-              time: {
-                unit: 'minute',
-                displayFormats: {
-                  minute: 'HH:mm',
-                },
-              },
-            },
-          },
-        },
-      });
-    }
-  }, [stockData]);
+    console.log('Historical Data:', historicalData);
+  }, [historicalData]);
 
   return (
     <div>
       {loading ? (
-        <p>Loading stock data...</p>
+        <p>Loading historical data...</p>
       ) : (
-        <canvas id="stockChart" width="800" height="400"></canvas>
+        <p>Check the console for historical data</p>
       )}
     </div>
   );
