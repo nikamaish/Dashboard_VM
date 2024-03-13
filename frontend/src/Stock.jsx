@@ -7,7 +7,7 @@ const Stock = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const apiKey = 'df5a8fbf04msh3edf50e3129a73ap1747cfjsnc2f84df542cd';
+        const apiKey = 'api-key';
         const symbol = 'AMRN'; // Replace with the desired stock symbol
         const apiUrl = `https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v3/get-historical-data?symbol=${symbol}&region=US`;
 
