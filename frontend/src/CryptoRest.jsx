@@ -72,21 +72,26 @@ function CryptoRest() {
           label: `${crypto} Price (USD)`,
           data: data.map(item => item[`${crypto}Price`]),
           borderColor: index === 0 ? color1 : color2,
+           borderWidth: 1, 
           fill: true,
-          backgroundColor: 'rgba(0, 128, 0, 0.1)',
+          backgroundColor: color3,
           pointRadius: 0,
         };
       });
 
 
       const barDatasets = selectedCryptos.map((crypto, index) => {
-        const backgroundColor = index === 0 ? color2 : color1; // Set dark green color for the first cryptocurrency
+        const borderColor = color1; // Set color1 as border color
+        const backgroundColor = index === 0 ? color3 : color1; // Set dark green color for the first cryptocurrency
         return {
           label: `${crypto} Price (USD)`,
           data: data.map((item) => item[`${crypto}Price`]),
           backgroundColor: backgroundColor,
+          borderColor: borderColor, // Add border color
+          borderWidth: 1, // Set border width
         };
       });
+      
 
       setChartData({
         labels,
@@ -111,7 +116,7 @@ function CryptoRest() {
   return (
     <div className="rectangle-page">
       <div className="graph-container">
-        <h1 style={{ textAlign: 'center', marginTop: '2vh' }}> 1 Minute Crypto Price Chart</h1>
+        <p style={{ textAlign: 'center', marginTop: '2vh' }}> 1 Minute Crypto Price Chart</p>
 
         <div className="timeRest">
           <ul style={{ listStyle: "none" }}>
@@ -153,7 +158,7 @@ function CryptoRest() {
                   responsive: true,
                   layout: {
                     padding: {
-                      left: 20,
+                      left: 10,
                       right: 20,
                       top: 0,
                       bottom: 0,

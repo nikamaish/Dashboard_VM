@@ -36,3 +36,7 @@ body{
   color: #fff; /* Change the text color to ensure readability */
   cursor: pointer; /* Change the cursor to indicate interactivity */
 }
+
+.graph-container p{
+  font-size: clamp(1.5rem, 2vw, 2rem);
+}
