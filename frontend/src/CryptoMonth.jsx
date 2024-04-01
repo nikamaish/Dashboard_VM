@@ -30,12 +30,13 @@ function CryptoMonth() {
   
         const requests = selectedCryptos.map((crypto) => {
           return axios.get(`https://api.coingecko.com/api/v3/coins/${crypto}/market_chart`, {
+            crossDomain: true,
             params: {
               vs_currency: 'usd',
               days: intervalDays[selectedInterval],
               interval: 'daily',
             },
-          });
+          })
         });
   
         const responses = await Promise.all(requests);
@@ -283,5 +284,4 @@ function CryptoMonth() {
 }
 
 export default CryptoMonth;
-
 
