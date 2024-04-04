@@ -17,7 +17,11 @@ import CryptoRest from "./CryptoRest";
 import Signin from "./Signin/Signin";
 import Signup from "./Signup/Signup";
 import CryptoMonth from "./CryptoMonth";
-import Stock from "./Stock";
+import CryptoWeek from "./CryptoWeek";
+import CryptoMonths from "./CryptoMonths";
+import CryptoThreeMonths from "./CryptoThreeMonths";
+
+import StockRest from "./Stock";
 
 const App = () => {
   return (
@@ -30,11 +34,14 @@ const App = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/cryptorest" element={ <CryptoRest />} />
         <Route path="/cryptomonth" element={<CryptoMonth />} />
-        <Route path="/stock" element={<Stock />} />
+        <Route path="/stock" element={<StockRest />} />
 
 
       </Routes>
-      {/* <CryptoGraphs/>  */}
+      {/* <CryptoWeek/> */}
+      {/* <CryptoMonths/> */}
+      {/* <CryptoThreeMonths/> */}
+       <CryptoGraphs/>
       {/* <Broadcast/> */}
       {/* <Headsection/> */}
       {/* <CryptoData/> */}
