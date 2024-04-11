@@ -23,6 +23,7 @@ body{
   background-color:chocolate;
   color: white;
   border: none;
+  list-style: none;
   border-radius: 7px;
   padding: 14px;
   margin:   0 15px;
@@ -31,11 +32,26 @@ body{
   font-family:'Times New Roman', Times, serif;
 }
 
-.timeRest ul li.selected {
-  background-color: #3498db; /* Change this color to your preferred color */
-  color: #fff; /* Change the text color to ensure readability */
-  cursor: pointer; /* Change the cursor to indicate interactivity */
+.timeRest ul :link{
+  text-decoration: none;
 }
+
+
+.oneline{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+   /* margin-top:10vh ; */
+  margin-bottom: 10vh;
+}
+
+
+/* .timeRest ul li.selected {
+  background-color: #3498db; 
+  color: #fff; 
+  cursor: pointer; 
+} */
 
 .graph-container p{
   font-size: clamp(1.5rem, 2vw, 2rem);

@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import CryptoGraphs from "./Cryptographs";
+import CryptoGraphs from "./CryptoWebsocket";
 import Services from "./services/Services";
 // import cryptoData from './cryptoData/Cryptodata'
 import "./broadcast/Broadcast";
@@ -13,17 +13,20 @@ import Footer from "./Footer/Footer";
 import RiskWarning from "./Risk/Risk";
 import Help from "./help/Help";
 import CryptoData from "./cryptoData/CryptoData";
-import CryptoRest from "./CryptoRest";
 import Signin from "./Signin/Signin";
 import Signup from "./Signup/Signup";
-import CryptoMonth from "./CryptoMonth";
+// import CryptoMonth from "./CryptoMonth";
+import CryptoWebsocket from "./CryptoWebsocket";
+import CryptoOneDay from "./CryptoOneDay";
 import CryptoWeek from "./CryptoWeek";
 import CryptoMonths from "./CryptoMonths";
 import CryptoThreeMonths from "./CryptoThreeMonths";
 
 import StockRest from "./Stock";
 
+
 const App = () => {
+  
   return (
     <div className="App">
   
@@ -32,8 +35,11 @@ const App = () => {
       <Routes>
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/cryptorest" element={ <CryptoRest />} />
-        <Route path="/cryptomonth" element={<CryptoMonth />} />
+        <Route path="/cryptoWebsocket" element={<CryptoWebsocket />} />
+        <Route path="/cryptoOneday" element={ <CryptoOneDay />} />
+        <Route path="/cryptoweek" element={<CryptoWeek />} />
+        <Route path="/cryptomonth" element={<CryptoMonths />} />
+        <Route path="/cryptothreemonths" element={<CryptoThreeMonths/>} />
         <Route path="/stock" element={<StockRest />} />
 
 
@@ -41,7 +47,7 @@ const App = () => {
       {/* <CryptoWeek/> */}
       {/* <CryptoMonths/> */}
       {/* <CryptoThreeMonths/> */}
-       <CryptoGraphs/>
+       {/* <CryptoWebsocket/> */}
       {/* <Broadcast/> */}
       {/* <Headsection/> */}
       {/* <CryptoData/> */}
