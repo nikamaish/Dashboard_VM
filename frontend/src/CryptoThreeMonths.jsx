@@ -1,52 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import { Line, Bar } from 'react-chartjs-2';
+import './CryptoRest.css';
+import { Link } from 'react-router-dom';
 
-function CryptoWeek() {
+function CryptoThreeMonths() {
   const [selectedCryptos, setSelectedCryptos] = useState(['BTC']);
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [],
   });
-  const [selectedGraphType, setSelectedGraphType] = useState('line');
+  const [selectedGraphType, setSelectedGraphType] = useState('line'); // Default to line graph
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const requests = selectedCryptos.map(crypto => {
-          return axios.get(`https://min-api.cryptocompare.com/data/v2/histohour?fsym=${crypto}&tsym=USD&limit=168`);
+          return axios.get(`https://min-api.cryptocompare.com/data/v2/histoday?fsym=${crypto}&tsym=USD&limit=90`);
         });
 
         const responses = await Promise.all(requests);
         const cryptoDatas = responses.map(response => response.data.Data.Data);
 
-        const hourlyData = cryptoDatas.map(cryptoData => {
-          return cryptoData.map(item => ({
-            time: new Date(item.time * 1000).toLocaleString('en-US', {
-              year: 'numeric',
-              month: 'short',
-              day: '2-digit',
-              hour: '2-digit',
-              minute: '2-digit',
-            }),
-            price: item.close,
-          }));
+        const highestPrices = cryptoDatas.map(cryptoData => {
+          return cryptoData.map(item => item.high);
         });
 
-
         setChartData({
-          labels: hourlyData[0].map(data => data.time),
-          datasets: hourlyData.map((data, index) => ({
-            label: `${selectedCryptos[index]} Price (USD)`,
-            data: data.map(entry => entry.price),
+          labels: cryptoDatas[0].map(item => new Date(item.time * 1000).toLocaleDateString()), // Dates as labels
+          datasets: highestPrices.map((prices, index) => ({
+            label: `${selectedCryptos[index]} Highest Price (USD)`,
+            data: prices,
             fill: true,
-            backgroundColor: 'rgba(0, 128, 0, 0.1)',
-            borderColor: 'darkgreen',
+            backgroundColor: 'rgba(0, 128, 0, 0.1)', // Example color
+            borderColor: 'darkgreen', // Example color
             borderWidth: 1,
             pointRadius: 0,
           })),
         });
+
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -55,7 +47,7 @@ function CryptoWeek() {
     fetchData();
   }, [selectedCryptos]);
 
-  const handleGraphTypeChange = event => {
+  const handleGraphTypeChange = (event) => {
     const newGraphType = event.target.value;
     setSelectedGraphType(newGraphType);
   };
@@ -85,20 +77,18 @@ function CryptoWeek() {
   return (
     <div className="rectangle-page">
       <div className="graph-container">
-        <p style={{ textAlign: 'center', marginTop: '2vh' }}>Hourly-Weekly Crypto Prices</p>
+        <p style={{ textAlign: 'center', marginTop: '2vh' }}>Three Months Crypto Price</p>
 
         <div className='oneline'>
         <div className="timeRest">
           <ul>
             <Link to='/cryptoOneday'  ><li >1D</li></Link>
-            <Link to='/cryptoweek'  ><li style={{ backgroundColor: '#3498db' }}>7D</li></Link>
-            <Link to='/cryptomonth'  ><li>1M</li></Link>
-            <Link to='/cryptothreemonths'  ><li>3M</li></Link>
+            <Link to='/cryptoweek'  ><li >7D</li></Link>
+            <Link to='/cryptomonth'  ><li >1M</li></Link>
+            <Link to='/cryptothreemonths' ><li style={{ backgroundColor: '#3498db' }}>3M</li></Link>
           </ul>
         </div>
 
-
-        
         <div multiple value={selectedCryptos} onChange={handleCryptoSelection} style={{ textAlign: 'end', marginTop: '20px', marginRight: '60px' }}>
           <select style={{ height: '40px', width: '120px', fontWeight: '600', fontSize: '16px', cursor: 'pointer', borderRadius: '5px', paddingLeft: '7px' }}>
             {options.map((option) => (
@@ -110,6 +100,7 @@ function CryptoWeek() {
         </div>
         </div>
 
+        
         <div style={{ textAlign: 'center', marginTop: '20px' }}>
           <label style={{ marginRight: '10px' }}>Graph Type:</label>
           <select
@@ -121,9 +112,6 @@ function CryptoWeek() {
             <option value="bar">Bar</option>
           </select>
         </div>
-
-
-
 
         <div className="chart-container">
           {chartData.datasets.length > 0 ? (
@@ -138,15 +126,6 @@ function CryptoWeek() {
                       right: 20,
                       top: 0,
                       bottom: 0,
-                    },
-                  },
-                  plugins: {
-                    legend: {
-                      display: true,
-                    },
-                    tooltip: {
-                      mode: 'index',
-                      intersect: false,
                     },
                   },
                   scales: {
@@ -173,6 +152,22 @@ function CryptoWeek() {
 
                     },
                   },
+                  plugins: {
+                    tooltip: {
+                      mode: 'nearest', // Show nearest data point on hover
+                      intersect: false,
+                      callbacks: {
+                        title: function (tooltipItems) {
+                          // Displaying date with year
+                          return new Date(tooltipItems[0].parsed.x).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric',
+                          });
+                        }
+                      }
+                    }
+                  }
                 }}
               />
             ) : (
@@ -202,6 +197,22 @@ function CryptoWeek() {
                       },
                     },
                   },
+                  plugins: {
+                    tooltip: {
+                      mode: 'nearest', // Show nearest data point on hover
+                      intersect: false,
+                      callbacks: {
+                        title: function (tooltipItems) {
+                          // Displaying date with year
+                          return new Date(tooltipItems[0].parsed.x).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric',
+                          });
+                        }
+                      }
+                    }
+                  }
                 }}
               />
             )
@@ -214,4 +225,4 @@ function CryptoWeek() {
   );
 }
 
-export default CryptoWeek;
+export default CryptoThreeMonths;
